@@ -350,7 +350,7 @@ class NfcEngine(private val activity: Activity) {
         }
     }
 
-    private fun sendCustom(isoDep: IsoDep, payload: ByteArray): ByteArray {
+    private fun sendCustom(isoDep: IsoDep, payload: ByteArray, maxRetries: Int = 3): ByteArray {
         val apdu = ByteArray(5 + payload.size).apply {
             this[0] = 0x00
             this[1] = 0x4A
@@ -360,16 +360,38 @@ class NfcEngine(private val activity: Activity) {
             System.arraycopy(payload, 0, this, 5, payload.size)
         }
 
-        log(true, "TX: ${bytesToHex(apdu)}")
-        val resp = isoDep.transceive(apdu)
-        log(false, "RX: ${bytesToHex(resp)}")
+        var lastException: Exception? = null
+        for (attempt in 1..maxRetries) {
+            try {
+                if (attempt > 1) {
+                    log(false, "Retrying APDU command (attempt $attempt/$maxRetries)...")
+                    Thread.sleep(150L) // Allow capacitor to settle after a transient brownout
+                }
 
-        if (resp.size < 2) {
-            throw IOException("APDU response too short: ${bytesToHex(resp)}")
+                log(true, "TX: ${bytesToHex(apdu)}")
+                val resp = isoDep.transceive(apdu)
+                log(false, "RX: ${bytesToHex(resp)}")
+
+                if (resp.size < 2) {
+                    val errMsg = "APDU response too short (${resp.size} bytes: ${bytesToHex(resp)})"
+                    log(false, "Warning: $errMsg (attempt $attempt/$maxRetries)")
+                    lastException = IOException(errMsg)
+                    continue
+                }
+
+                // Return payload without the 2-byte wrapper prefix
+                return resp.copyOfRange(2, resp.size)
+            } catch (e: Exception) {
+                lastException = e
+                log(false, "APDU transceive exception on attempt $attempt/$maxRetries: ${e.message}")
+                if (e is android.nfc.TagLostException && !isoDep.isConnected) {
+                    // Tag is completely out of RF field
+                    break
+                }
+            }
         }
 
-        // Return payload without the 2-byte wrapper prefix
-        return resp.copyOfRange(2, resp.size)
+        throw lastException ?: IOException("APDU transceive failed after $maxRetries attempts")
     }
 
     private fun log(isTx: Boolean, message: String, hex: String? = null) {

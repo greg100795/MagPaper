@@ -320,6 +320,15 @@ fun MainScreen(nfcEngine: NfcEngine) {
                             Row(verticalAlignment = Alignment.Top) {
                                 Text("1. ", fontWeight = FontWeight.Bold, color = Color(0xFF64B5F6), fontSize = 12.sp)
                                 Text(
+                                    "Remove thick cases: Heavy leather, wallet, or kickstand cases severely weaken inductive NFC power. For best results, remove the case before tapping.",
+                                    fontSize = 12.sp,
+                                    color = Color(0xFF81D4FA),
+                                    lineHeight = 16.sp
+                                )
+                            }
+                            Row(verticalAlignment = Alignment.Top) {
+                                Text("2. ", fontWeight = FontWeight.Bold, color = Color(0xFF64B5F6), fontSize = 12.sp)
+                                Text(
                                     "Locate your phone's NFC sweet spot: On Pixel phones it is near the camera bar; on Samsung Galaxy/iPhones it is near the top or center back.",
                                     fontSize = 12.sp,
                                     color = Color.LightGray,
@@ -327,7 +336,7 @@ fun MainScreen(nfcEngine: NfcEngine) {
                                 )
                             }
                             Row(verticalAlignment = Alignment.Top) {
-                                Text("2. ", fontWeight = FontWeight.Bold, color = Color(0xFF64B5F6), fontSize = 12.sp)
+                                Text("3. ", fontWeight = FontWeight.Bold, color = Color(0xFF64B5F6), fontSize = 12.sp)
                                 Text(
                                     "Hold completely flat & steady: Rest the phone directly against the magnet. Do not move or tilt while transferring (takes ~10-15s data + ~20s refresh).",
                                     fontSize = 12.sp,
@@ -336,7 +345,7 @@ fun MainScreen(nfcEngine: NfcEngine) {
                                 )
                             }
                             Row(verticalAlignment = Alignment.Top) {
-                                Text("3. ", fontWeight = FontWeight.Bold, color = Color(0xFFFFB74D), fontSize = 12.sp)
+                                Text("4. ", fontWeight = FontWeight.Bold, color = Color(0xFFFFB74D), fontSize = 12.sp)
                                 Text(
                                     "Angle matters if it doesn't flip: If the transfer finishes but the screen does not refresh, the magnet's capacitor dropped voltage. Shift position by 1-2 cm or angle 10-15° and tap Retry.",
                                     fontSize = 12.sp,

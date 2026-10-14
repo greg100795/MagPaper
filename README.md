@@ -36,14 +36,16 @@ Tested and verified on:
 The E-Ink magnet has **no internal battery**. While transferring data only takes ~3-5 mA, flipping the microcapsules (the physical screen refresh) takes **~20-25 mA for 20-25 seconds** from the magnet's passive capacitor bank.
 
 ### Pro-Tips for 100% Reliable Writes:
-1. **Find your phone's NFC antenna sweet spot:**
+1. **Remove thick phone cases:**
+   - Heavy leather, wallet, credit-card holders, or kickstand cases severely reduce inductive energy transfer. If you experience connection dropouts or "APDU response too short", remove the case.
+2. **Find your phone's NFC antenna sweet spot:**
    - **Google Pixel:** Upper edge near the camera visor bar.
    - **Samsung Galaxy / Motorola:** Middle back or slightly above center.
    - **iPhones / others:** Top edge.
-2. **Hold completely flat & still:**
+3. **Hold completely flat & still:**
    - Rest the phone directly against the magnet.
    - Keep contact steady for ~30 seconds (10s data transfer + 20s screen refresh).
-3. **If data reaches 100% but the screen does not flip:**
+4. **If data reaches 100% but the screen does not flip:**
    - The magnet's capacitor dropped voltage during the high-power waveform trigger.
    - **Adjust the contact angle by 10-15°** or shift by 1-2 cm to achieve maximum magnetic flux coupling between the coils.
    - Tap **Retry** and hold in the new position.
